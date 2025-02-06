@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niroj Neupane Khatri</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+            color: yellow;
+            font-family: 'Russo One', sans-serif;
+            text-align: center;
+            cursor: pointer; /* Change cursor to pointer on click */
+        }
+
+        .container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .text {
+            font-size: 4rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px yellow, 0 0 20px orange;
+            animation: glow 1.5s infinite alternate;
+            opacity: 1;
+            color: yellow; /* Ensure the color is yellow */
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px yellow, 0 0 20px orange;
+            }
+            to {
+                text-shadow: 0 0 20px yellow, 0 0 40px red;
+            }
+        }
+
+        .scrolling-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            color: #ffe81f;
+            opacity: 0;
+            transform-origin: 50% 100%;
+            white-space: nowrap;
+            bottom: -100%; /* Initially positioned outside the screen (bottom) */
+        }
+
+        @keyframes crawl {
+            0% {
+                bottom: -10%; /* Start from bottom */
+                opacity: 1;
+                transform: rotateX(25deg) translateZ(0);
+            }
+            100% {
+                bottom: 110%;
+                opacity: 1;
+                transform: rotateX(25deg) translateZ(-300px);
+            }
+        }
+
+        /* Button Styles */
+        .intro-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: black;
+            font-family: 'Russo One', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .intro-button:hover {
+            background-color: #ffa500;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text" id="greetingText">Hello There</div>
+    </div>
+
+    <div class="scrolling-text" id="scrollingText">
+        <p>In a galaxy far, far away, a developer sought the ultimate greeting...</p>
+    </div>
+
+    <!-- Intro Button -->
+    <button class="intro-button" id="introButton">Intro</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const greetingText = document.getElementById("greetingText");
+            const scrollingText = document.getElementById("scrollingText");
+            const introButton = document.getElementById("introButton");
+
+            let isHelloVisible = true;
+
+            // Function to alternate the text between "Hello There" and "General Kenobi"
+            const alternateText = () => {
+                if (isHelloVisible) {
+                    greetingText.textContent = "Hello There";
+                    greetingText.style.color = "yellow"; // Set the color for "Hello There"
+                } else {
+                    greetingText.textContent = "General Kenobi!";
+                    greetingText.style.color = "yellow"; // Set the color for "General Kenobi"
+                }
+                isHelloVisible = !isHelloVisible;
+            };
+
+            // Alternate the texts every 2 seconds (2000ms)
+            setInterval(alternateText, 2000);
+
+            // Click event for the Intro button to show the scrolling text
+            introButton.addEventListener("click", () => {
+                // Hide the alternating texts
+                greetingText.style.opacity = "0";
+
+                // Show the scrolling text and start animation with faster speed (10s instead of 15s)
+                scrollingText.style.opacity = "1";
+                scrollingText.style.animation = "crawl 10s linear";  // Speed increased here
+
+                // After animation, reset for next click
+                setTimeout(() => {
+                    greetingText.style.opacity = "1";
+                    scrollingText.style.opacity = "0";
+                    scrollingText.style.animation = "none";
+                }, 10000); // Same duration as crawl animation (10 seconds)
+            });
+        });
+    </script>
+</body>
+</html>
